@@ -80,6 +80,8 @@ int main(void) {
 		EndDrawing();
 	}
 
+	UnloadRenderTexture(main_target);
+	UnloadShader(main_shader);
 	CloseWindow();
 	return 0;
 }
