@@ -77,9 +77,13 @@ int main(void) {
 			WHITE
 			);
 
+		DrawText(TextFormat("FPS: %d", GetFPS()), 10, 10, 20, BLACK);
+		DrawText(TextFormat("Frametime: %.2fms", GetFrameTime() * 1000), 10, 30, 20, BLACK);
+
 		EndDrawing();
 	}
 
+	
 	UnloadRenderTexture(main_target);
 	UnloadShader(main_shader);
 	CloseWindow();

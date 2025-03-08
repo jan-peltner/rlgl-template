@@ -9,7 +9,7 @@ uniform vec2 resolution;
 void main()
 {
     // Create a smoothly varying value between 0 and 10 based on position and time
-    float colorPosition = mod(gl_FragCoord.x / 100.0 + time * 0.2, 10.0);
+    float colorPosition = mod(gl_FragCoord.x / 100.0 + time * 0.5, 10.0);
     
     // Find the two colors to interpolate between
     int colorIndex1 = int(floor(colorPosition)) % 10;
