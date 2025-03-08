@@ -2,10 +2,6 @@
 
 A simple raylib-based template for creating GLSL shader visualizations.
 
-## Overview
-
-This project provides a minimal framework for experimenting with fragment shaders in raylib. The example implements a smooth color-cycling animation using a curated color palette.
-
 ## Requirements
 
 - raylib
@@ -29,6 +25,12 @@ This project provides a minimal framework for experimenting with fragment shader
   - `main.vert` - Vertex shader
   - `main.frag` - Fragment shader
 - `bin/` - Build output (created during build)
+
+## Performance UI
+
+The application displays real-time performance metrics in the top-left corner:
+- FPS
+- Frametime
 
 ## Customization
 
