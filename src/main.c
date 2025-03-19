@@ -7,10 +7,11 @@
 // Window
 #define WINDOW_WIDTH 1920
 #define WINDOW_HEIGHT 1080
-#define RESOLUTION (Vector2){.x = (float)WINDOW_WIDTH, .y = (float)WINDOW_HEIGHT}
 #define TARGET_FPS 60
 
 #define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
+
+static Vector2 resolution = {.x = (float)WINDOW_WIDTH, .y = (float)WINDOW_HEIGHT};
 
 static Color colors[] = {
 {245, 224, 220, 255}, // Rosewater
@@ -50,7 +51,7 @@ int main(void) {
 	int main_shader_resolution_loc = GetShaderLocation(main_shader, "resolution");
 
 	SetShaderValueV(main_shader, main_shader_colors_loc, &color_palette_vec, SHADER_UNIFORM_VEC4, ARRAY_LENGTH(colors));
-	SetShaderValue(main_shader, main_shader_resolution_loc, &RESOLUTION, SHADER_UNIFORM_VEC2);
+	SetShaderValue(main_shader, main_shader_resolution_loc, &resolution, SHADER_UNIFORM_VEC2);
 
 	RenderTexture2D main_target = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 
