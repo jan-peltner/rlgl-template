@@ -10,7 +10,7 @@
 #define RESOLUTION (Vector2){.x = (float)WINDOW_WIDTH, .y = (float)WINDOW_HEIGHT}
 #define TARGET_FPS 60
 
-#define COLORS_LENGTH (sizeof(colors) / sizeof(colors[0]))
+#define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
 
 static Color colors[] = {
 {245, 224, 220, 255}, // Rosewater
@@ -26,7 +26,7 @@ static Color colors[] = {
 };
 
 void normalizedColorsToFloatVec4(float* vec4) {
-	for (size_t i = 0; i < COLORS_LENGTH; ++i) {
+	for (size_t i = 0; i < ARRAY_LENGTH(colors); ++i) {
 		vec4[i * 4] = colors[i].r / 255.0f;
 		vec4[i * 4 + 1] = colors[i].g / 255.0f;
 		vec4[i * 4 + 2] = colors[i].b / 255.0f;
@@ -39,7 +39,7 @@ int main(void) {
 	SetTargetFPS(TARGET_FPS);
 
 	// color palette as vec4 needed for shaders
-	float color_palette_vec[COLORS_LENGTH * 4];
+	float color_palette_vec[ARRAY_LENGTH(colors) * 4];
 	normalizedColorsToFloatVec4(color_palette_vec);
 
 	// set up shaders
@@ -49,7 +49,7 @@ int main(void) {
 	int main_shader_time_loc = GetShaderLocation(main_shader, "time");
 	int main_shader_resolution_loc = GetShaderLocation(main_shader, "resolution");
 
-	SetShaderValueV(main_shader, main_shader_colors_loc, &color_palette_vec, SHADER_UNIFORM_VEC4, COLORS_LENGTH);
+	SetShaderValueV(main_shader, main_shader_colors_loc, &color_palette_vec, SHADER_UNIFORM_VEC4, ARRAY_LENGTH(colors));
 	SetShaderValue(main_shader, main_shader_resolution_loc, &RESOLUTION, SHADER_UNIFORM_VEC2);
 
 	RenderTexture2D main_target = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
