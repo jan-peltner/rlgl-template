@@ -1,46 +1,21 @@
-#include "raylib.h"
-#include "raymath.h"
 #include <stddef.h>
-#include <time.h>
+#include "raylib.h"
+#include "colors.h"
+#include "window.h"
 
-
-// Window
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
-#define TARGET_FPS 60
-
-#define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
-
-static Vector2 resolution = {.x = (float)WINDOW_WIDTH, .y = (float)WINDOW_HEIGHT};
-
-static Color colors[] = {
-{245, 224, 220, 255}, // Rosewater
-{242, 205, 205, 255}, // Flamingo
-{245, 194, 231, 255}, // Pink
-{203, 166, 247, 255}, // Mauve
-{243, 139, 168, 255}, // Red
-{250, 179, 135, 255}, // Peach
-{249, 226, 175, 255}, // Yellow
-{166, 227, 161, 255}, // Green
-{148, 226, 213, 255}, // Teal
-{137, 180, 250, 255}  // Blue
-};
-
-void normalizedColorsToFloatVec4(float* vec4) {
-	for (size_t i = 0; i < ARRAY_LENGTH(colors); ++i) {
-		vec4[i * 4] = colors[i].r / 255.0f;
-		vec4[i * 4 + 1] = colors[i].g / 255.0f;
-		vec4[i * 4 + 2] = colors[i].b / 255.0f;
-		vec4[i * 4 + 3] = colors[i].a / 255.0f;
-	}
-}
 
 int main(void) {
+	// init 
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "RLGL Template");	
 	SetTargetFPS(TARGET_FPS);
+	Vector2* resolution = getResolution();
 
-	// color palette as vec4 needed for shaders
-	float color_palette_vec[ARRAY_LENGTH(colors) * 4];
+	// get colors for CPU
+	Color* colors = getColors();
+	size_t colors_length = getColorsLength();
+
+	// prepare colors as vec4 for GPU shader
+	float color_palette_vec[colors_length * 4];
 	normalizedColorsToFloatVec4(color_palette_vec);
 
 	// set up shaders
@@ -50,8 +25,8 @@ int main(void) {
 	int main_shader_time_loc = GetShaderLocation(main_shader, "time");
 	int main_shader_resolution_loc = GetShaderLocation(main_shader, "resolution");
 
-	SetShaderValueV(main_shader, main_shader_colors_loc, &color_palette_vec, SHADER_UNIFORM_VEC4, ARRAY_LENGTH(colors));
-	SetShaderValue(main_shader, main_shader_resolution_loc, &resolution, SHADER_UNIFORM_VEC2);
+	SetShaderValueV(main_shader, main_shader_colors_loc, &color_palette_vec, SHADER_UNIFORM_VEC4, colors_length);
+	SetShaderValue(main_shader, main_shader_resolution_loc, resolution, SHADER_UNIFORM_VEC2);
 
 	RenderTexture2D main_target = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -78,8 +53,8 @@ int main(void) {
 			WHITE
 			);
 
-		DrawText(TextFormat("FPS: %d", GetFPS()), 10, 10, 20, BLACK);
-		DrawText(TextFormat("Frametime: %.2fms", GetFrameTime() * 1000), 10, 30, 20, BLACK);
+			DrawText(TextFormat("FPS: %d", GetFPS()), 10, 10, 20, BLACK);
+			DrawText(TextFormat("Frametime: %.2fms", GetFrameTime() * 1000), 10, 30, 20, BLACK);
 
 		EndDrawing();
 	}

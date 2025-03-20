@@ -4,7 +4,7 @@ set -ex
 
 mkdir -p bin
 
-cc -Wall -Wextra -o bin/rlgl src/main.c -lraylib -lm
+cc -Wall -Wextra -o bin/rlgl src/main.c src/colors.c src/window.c -lraylib -lm
 
 cd bin
 
