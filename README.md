@@ -20,15 +20,22 @@ A simple raylib-based template for creating GLSL shader visualizations.
 
 ## Project Structure
 
-- `src/main.c` - Main application logic
+- `src/` - Source code
+  - `main.c` - Main application logic
+  - `colors.c` - Color palette implementation
+  - `colors.h` - Color palette declarations
+  - `window.c` - Window configuration implementation
+  - `window.h` - Window configuration declarations
 - `shaders/` - GLSL shader files
   - `main.vert` - Vertex shader
   - `main.frag` - Fragment shader
 - `bin/` - Build output (created during build)
+- `build.sh` - Build script
+- `run.sh` - Run script
 
 ## Performance UI
 
-The application displays real-time performance metrics in the top-left corner:
+The template displays real-time performance metrics in the top-left corner:
 - FPS
 - Frametime
 
