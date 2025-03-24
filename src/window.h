@@ -8,5 +8,6 @@
 #define TARGET_FPS 60
 
 Vector2* getResolution(void);
+Vector2 getCenter(Vector2 res);
 
 #endif

@@ -1,8 +1,10 @@
+#include <raylib.h>
 #include <stddef.h>
-#include "raylib.h"
+#include <raymath.h>
 #include "colors.h"
 #include "window.h"
 
+// #define USE_SHADER
 
 int main(void) {
 	// init 
@@ -18,6 +20,8 @@ int main(void) {
 	float color_palette_vec[colors_length * 4];
 	normalizedColorsToFloatVec4(color_palette_vec);
 
+	#ifdef USE_SHADER
+
 	// set up shaders
 	Shader main_shader = LoadShader("main.vert", "main.frag");
 
@@ -30,7 +34,14 @@ int main(void) {
 
 	RenderTexture2D main_target = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	#endif // USE_SHADER
+
 	while (!WindowShouldClose()) {
+		resolution->x = (float)GetScreenWidth();
+		resolution->y = (float)GetScreenHeight();
+
+		#ifdef USE_SHADER
+
 		float elapsed_time = GetTime();
 		SetShaderValue(main_shader, main_shader_time_loc, &elapsed_time, SHADER_UNIFORM_FLOAT);
 
@@ -40,9 +51,14 @@ int main(void) {
 		    DrawRectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE);
 		    EndShaderMode();
 		EndTextureMode();
+
+		#endif // USE_SHADER
+		
 		BeginDrawing();
 
 			ClearBackground(BLACK);
+
+			#ifdef USE_SHADER
 
 			DrawTexturePro(
 			main_target.texture,
@@ -53,6 +69,12 @@ int main(void) {
 			WHITE
 			);
 
+			#else 
+
+			DrawCircleV(getCenter(*resolution), 10.0f, RED);	
+			
+			#endif // USE_SHADER
+
 			DrawText(TextFormat("FPS: %d", GetFPS()), 10, 10, 20, BLACK);
 			DrawText(TextFormat("Frametime: %.2fms", GetFrameTime() * 1000), 10, 30, 20, BLACK);
 
@@ -60,8 +82,10 @@ int main(void) {
 	}
 
 	
+	#ifdef USE_SHADER
 	UnloadRenderTexture(main_target);
 	UnloadShader(main_shader);
+	#endif // USE_SHADER
 	CloseWindow();
 	return 0;
 }

@@ -1,5 +1,5 @@
 #include <stddef.h>
-#include "raylib.h"
+#include <raylib.h>
 #include "colors.h"
 
 static Color colors[] = {
