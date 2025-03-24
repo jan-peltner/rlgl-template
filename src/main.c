@@ -4,7 +4,7 @@
 #include "colors.h"
 #include "window.h"
 
-// #define USE_SHADER
+#define USE_SHADER
 
 int main(void) {
 	// init 
